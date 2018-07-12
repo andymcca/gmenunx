@@ -1526,7 +1526,6 @@ void GMenu2X::explorer() {
 	}
 }
 
-
 void GMenu2X::ledOn() {
 #if defined(TARGET_GP2X)
 	if (memdev != 0 && !f200) memregs[0x106E >> 1] ^= 16;
@@ -1685,7 +1684,7 @@ void GMenu2X::umountSdDialog() {
 	mb.setButton(CANCEL,  tr["No"]);
 	if (mb.exec() == CONFIRM) {
 		umountSd();
-		MessageBox mb(this, tr["Complete!"]);
+		MessageBox mb(this, tr["Complete!"], "skin:icons/eject.png");
 		mb.exec();
 		// menu->deleteSelectedLink();
 	}
