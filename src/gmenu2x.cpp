@@ -1668,11 +1668,6 @@ uint32_t GMenu2X::hwCheck(unsigned int interval = 0, void *param = NULL) {
 			InputManager::pushEvent(mmcStatus);
 		}
 
-		tvOutStatus = getTVOutStatus();
-		if (tvOutPrev != tvOutStatus) {
-			tvOutPrev = tvOutStatus;
-			InputManager::pushEvent(tvOutStatus);
-		}
 
 		volumeMode = getVolumeMode(1);
 		if (volumeModePrev != volumeMode) {
