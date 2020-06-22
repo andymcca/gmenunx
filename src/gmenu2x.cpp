@@ -164,27 +164,24 @@ int main(int /*argc*/, char * /*argv*/[]) {
 }
 
 GMenu2X::~GMenu2X() {
-	quit();
-	delete menu;
-	delete s;
-	delete font;
-	delete titlefont;
-}
-
-void GMenu2X::quit() {
 	s->flip(); s->flip(); s->flip(); // flush buffers
 
 	powerManager->clearTimer();
 	writeConfig();
 
-	s->free();
-
-	font->free();
-	titlefont->free();
+	delete menu;
+	delete s;
+	delete font;
+	delete titlefont;
 
 	fflush(NULL);
+
 	SDL_Quit();
 	hwDeinit();
+}
+
+void GMenu2X::quit() {
+	quit_all(0);
 }
 
 void GMenu2X::main() {
@@ -546,7 +543,7 @@ void GMenu2X::settings() {
 
 		if (prevDateTime != newDateTime) {
 			set_date_time(newDateTime.c_str());
-			reinit();
+			quit();
 		}
 	}
 	powerManager->setSuspendTimeout(confInt["backlightTimeout"]);
@@ -617,7 +614,7 @@ void GMenu2X::resetSettings() {
 			string tmppath = exe_path() + "/gmenu2x.conf";
 			unlink(tmppath.c_str());
 		}
-		reinit();
+		quit();
 	}
 }
 
@@ -1113,7 +1110,7 @@ void GMenu2X::skinMenu() {
 		linkColsPrev != skinConfInt["linkCols"] ||
 		linkRowsPrev != skinConfInt["linkRows"] ||
 		sbPrev != skinConfInt["sectionBar"]
-	) reinit();
+	) quit();
 }
 
 void GMenu2X::skinColors() {
@@ -1325,20 +1322,6 @@ bool GMenu2X::saveScreenshot(string path) {
 
 	path = unique_filename(path + "/screenshot", ".bmp");
 	return SDL_SaveBMP(s->raw, path.c_str()) == 0;
-}
-
-void GMenu2X::reinit(bool showDialog) {
-	if (showDialog) {
-		MessageBox mb(this, tr["GMenuNX will restart to apply\nthe settings. Continue?"], "skin:icons/exit.png");
-		mb.setButton(CONFIRM, tr["Restart"]);
-		mb.setButton(CANCEL,  tr["Cancel"]);
-		if (mb.exec() == CANCEL) return;
-	}
-
-	quit();
-	WARNING("Re-launching gmenu2x");
-	chdir(exe_path().c_str());
-	execlp("./gmenu2x", "./gmenu2x", NULL);
 }
 
 void GMenu2X::poweroffDialog() {
