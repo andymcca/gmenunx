@@ -1022,8 +1022,6 @@ void GMenu2X::skinMenu() {
 	previewMode.push_back("Backdrop");
 
 	vector<string> wallpapers;
-	string wpPath = confStr["wallpaper"];
-	confStr["tmp_wallpaper"] = "";
 
 	fl.showDirectories = false;
 	fl.showFiles = true;
@@ -1037,12 +1035,13 @@ void GMenu2X::skinMenu() {
 			setSkin(confStr["skin"], false);
 			sectionBar = sbStr[skinConfInt["sectionBar"]];
 
-			confStr["tmp_wallpaper"] = (confStr["tmp_wallpaper"].empty() || skinConfStr["wallpaper"].empty()) ? base_name(confStr["wallpaper"]) : skinConfStr["wallpaper"];
 			wallpapers.clear();
 
 				fl.browse(confStr["skin"] + "/wallpapers");
 				wallpapers.insert(wallpapers.end(), fl.getFiles().begin(), fl.getFiles().end());
 			}
+
+			wallpapers.insert(wallpapers.end(), fl.getFiles().begin(), fl.getFiles().end());
 
 			sc.del("skin:icons/skin.png");
 			sc.del("skin:imgs/buttons/left.png");
@@ -1050,12 +1049,8 @@ void GMenu2X::skinMenu() {
 			sc.del("skin:imgs/buttons/a.png");
 		}
 
-		wpPath = "skins/" + confStr["skin"] + "/wallpapers/" + confStr["tmp_wallpaper"];
-		if (!file_exists(wpPath)) wpPath = "skins/Default/wallpapers/" + confStr["tmp_wallpaper"];
-		if (!file_exists(wpPath)) wpPath = "skins/" + confStr["skin"] + "/wallpapers/" + wallpapers.at(0);
-		if (!file_exists(wpPath)) wpPath = "skins/Default/wallpapers/" + wallpapers.at(0);
+		if (!file_exists(confStr["wallpaper"])) confStr["wallpaper"] = wallpapers.at(0);
 
-		setBackground(bg, wpPath);
 		sc.del(confStr["wallpaper"]);
 		setBackground(bg, confStr["wallpaper"]);
 
@@ -1096,8 +1091,6 @@ void GMenu2X::skinMenu() {
 	else if (sectionBar == "Left") skinConfInt["sectionBar"] = SB_LEFT;
 	else skinConfInt["sectionBar"] = SB_CLASSIC;
 
-	confStr["tmp_wallpaper"] = "";
-	confStr["wallpaper"] = wpPath;
 	writeSkinConfig();
 	writeConfig();
 
