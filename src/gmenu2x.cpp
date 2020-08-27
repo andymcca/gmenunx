@@ -1673,6 +1673,12 @@ uint32_t GMenu2X::hwCheck(unsigned int interval = 0, void *param = NULL) {
 			InputManager::pushEvent(tvOutStatus);
 		}
 
+		volumeMode = getVolumeMode(1);
+		if (volumeModePrev != volumeMode) {
+			volumeModePrev = volumeMode;
+			InputManager::pushEvent(PHONES_CONNECT);
+		}
+
 	return interval;
 }
 
