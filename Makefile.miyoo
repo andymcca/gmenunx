@@ -1,0 +1,10 @@
+PLATFORM = miyoo
+
+export CROSS_COMPILE = /opt/arm-Miyoo-linux-uclibcgnueabi/usr/bin/arm-linux-
+
+CFLAGS += -DTARGET_MIYOO
+CFLAGS += -Os
+
+LDFLAGS = -lintl
+
+include gmenunx.mk
