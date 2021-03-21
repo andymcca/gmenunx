@@ -3,6 +3,7 @@ BUILDTIME	?= $(shell date +%s)
 
 CC			:= $(CROSS_COMPILE)gcc
 CXX			:= $(CROSS_COMPILE)g++
+MAKE                     := $(CROSS_COMPILE)make
 STRIP		:= $(CROSS_COMPILE)strip
 
 SYSROOT     ?= $(shell $(CC) --print-sysroot)
@@ -42,8 +43,8 @@ dir:
 	@mkdir -p $(OBJDIR)/src dist/$(PLATFORM)
 
 libopk:
-	make -C src/libopk clean
-	make -C src/libopk
+	$(MAKE) -C src/libopk clean
+	$(MAKE) -C src/libopk
 
 debug: $(OBJS)
 	@echo "Linking gmenunx-debug..."
