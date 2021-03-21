@@ -2,6 +2,7 @@
 #include "platform/retrofw.h"
 #include "platform/opendingux.h"
 #include "platform/miyoo.h"
+#include "platform/lf1000.h"
 // #include "platform/gp2x.h"
 
 Platform::Platform(GMenu2X *gmenu2x) : gmenu2x(gmenu2x) {
