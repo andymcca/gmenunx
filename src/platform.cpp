@@ -53,5 +53,12 @@ Platform* PlatformInit(GMenu2X *gmenu2x) { // Detect platform type and return ba
 		return new Miyoo(gmenu2x);
 	}
 
+	if (FILE *f = fopen("/sys/devices/platform/lf1000-clock/cpu_freq_in_hz", "r")) {
+		fclose(f);
+		INFO("Detected platform LF1000");
+		return new LF1000(gmenu2x);
+	}
+
+
 	return new Platform(gmenu2x);
 }
