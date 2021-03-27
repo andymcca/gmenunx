@@ -62,7 +62,7 @@ dist: dir libopk shared
 	install -m644 -D about.txt $(DISTDIR)/about.txt
 	install -m644 -D COPYING $(DISTDIR)/COPYING
 	mkdir -p $(DISTDIR)/skins/Default
-	cp -RH assets/skins/RetroFW/* $(DISTDIR)/skins/Default
+	cp -RH assets/skins/LF1000/* $(DISTDIR)/skins/Default
 	cp -RH assets/skins/Default/font.ttf $(DISTDIR)/skins/Default
 	cp -RH assets/translations $(DISTDIR)
 	cp -RH assets/$(PLATFORM)/input.conf $(DISTDIR)
