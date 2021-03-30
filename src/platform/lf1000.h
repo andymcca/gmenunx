@@ -35,6 +35,31 @@ public:
 	void ledOff() {
 	}
 
+	void setBacklight(int val) {
+		if (FILE *f = fopen("/sys/class/graphics/fb0/blank", "w")) {
+			fprintf(f, "%d", val <= 0);
+			fclose(f);
+		}
+
+		if (FILE *f = fopen("/sys/class/backlight/lf1000-pwm-bl/brightness", "w")) {
+			fprintf(f, "%d", 400 - (val * 4));
+			INFO("Set Backlight %d %d", val, 400 - (val * 4));
+			fclose(f);
+		}
+
+		return;
+	}
+
+	int16_t getBacklight() {
+		int val = -1;
+		if (FILE *f = fopen("/sys/class/backlight/lf1000-pwm-bl/brightness", "r")) {
+			fscanf(f, "%i", &val);
+			fclose(f);
+		}
+		INFO("Get backlight %d %d", val, (400-val)/4);
+		return (400-val)/4 ;
+	}
+
 	int16_t getBatteryLevel() {
 		return 6; // Stub for now
 	}
