@@ -61,7 +61,29 @@ public:
 	}
 
 	int16_t getBatteryLevel() {
-		return 6; // Stub for now
+		int val = -1;
+		if (FILE *f = fopen("/sys/devices/platform/lf1000-power/voltage", "r")) {
+			fscanf(f, "%i", &val);
+			fclose(f);
+		}
+		return val;
+	}
+
+
+	uint8_t getBatteryStatus(int32_t val, int32_t min, int32_t max) {
+		if ((val > 10000) || (val < 0)) return 6;
+		/* Needs tuning. LF's voltage refs in /sys say:
+         "full battery" 8000mv
+		 "normal battery" 4600mv
+         "low battery" 4200mv  
+		 "critical battery" 2000mv
+		*/
+		if (val > 7000) return 5; // 100%
+		if (val > 6000) return 4; // 80%
+		if (val > 4600) return 3; // 55%
+		if (val > 4200) return 2; // 30%
+		if (val > 3000) return 1; // 15%
+		return 0; // 0% :(
 	}
 
 	void setCPU(uint32_t mhz) {
