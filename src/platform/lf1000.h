@@ -87,6 +87,13 @@ public:
 	}
 
 	void setCPU(uint32_t mhz) {
+		mhz = constrain(mhz, gmenu2x->confInt["cpuMenu"], gmenu2x->confInt["cpuMax"]);
+		if (FILE *f = fopen("/sys/class/backlight/lf1000-pwm-bl/brightness", "w")) {
+			fprintf(f, "%d", mhz * 1000000);
+			INFO("Set CPU to %d mhz (%d hz)", mhz, mhz * 1000000);
+			fclose(f);
+		}
+
 	}
 };
 
