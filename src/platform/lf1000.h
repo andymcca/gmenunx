@@ -95,6 +95,18 @@ public:
 		}
 
 	}
+
+	void setVolume(int val) {
+		val = val * (255.0f / 100.0f);
+
+		int hp = 0;
+		char cmd[96];
+                // For now, use near-100% on Speaker/Headphone specifics, etc
+		// TODO: Set mute off/on when calling exec, so that audio isn't running during the menu
+		sprintf(cmd, "amixer set Master %d; amixer set Master on; amixer set Headphone 250; amixer set Speaker 250", val);
+		system(cmd);
+	}
+
 };
 
 #endif
