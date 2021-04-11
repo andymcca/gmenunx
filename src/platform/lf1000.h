@@ -7,6 +7,7 @@ class LF1000 : public Platform {
 private:
 	volatile uint16_t *memregs;
 	int memdev = 0;
+	int32_t tickBattery = 0;
 
 	typedef struct {
 		uint16_t batt;
@@ -23,10 +24,21 @@ public:
 		w = 320;
 		h = 240;
 
+        batteryStatus = getBatteryStatus(getBatteryLevel(), 0, 0);
+
 		INFO("LF1000 Init Done!");
 	}
 
 	void hwDeinit() {
+	}
+
+	uint32_t hwCheck(unsigned int interval=0, void *param = NULL) {
+               tickBattery++;
+                if (tickBattery > 30) { // update battery level every 30 hwChecks
+                        tickBattery = 0;
+                        batteryStatus = getBatteryStatus(getBatteryLevel(), 0, 0);
+                }
+
 	}
 
 	void ledOn() {
@@ -66,6 +78,7 @@ public:
 			fscanf(f, "%i", &val);
 			fclose(f);
 		}
+		INFO("Battery level %d\n", val);
 		return val;
 	}
 
@@ -78,6 +91,7 @@ public:
          "low battery" 4200mv  
 		 "critical battery" 2000mv
 		*/
+	    INFO("Battery status %d %d %d\n", val, min, max);
 		if (val > 7000) return 5; // 100%
 		if (val > 6000) return 4; // 80%
 		if (val > 4600) return 3; // 55%
@@ -96,8 +110,14 @@ public:
 
 	}
 
+	uint8_t getVolumeMode(uint8_t vol) {
+		if (!vol) return VOLUME_MODE_MUTE;
+		return VOLUME_MODE_NORMAL;
+	}
+
 	void setVolume(int val) {
 		val = val * (255.0f / 100.0f);
+		volumeMode = getVolumeMode(val);
 
 		int hp = 0;
 		char cmd[96];
