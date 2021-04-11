@@ -117,7 +117,7 @@ void TextDialog::exec() {
 		this->icon = "skin:icons/ebook.png";
 
 	buttons.push_back({"dpad", _("Scroll")});
-	buttons.push_back({"b", _("Exit")});
+	buttons.push_back({"a", _("Exit")});
 
 	drawDialog(gmenu2x->s);
 

@@ -42,12 +42,12 @@ bool BrowseDialog::exec(string _path) {
 
 		buttons.clear();
 		buttons.push_back({"select", _("Menu")});
-		buttons.push_back({"b", _("Cancel")});
+		buttons.push_back({"a", _("Cancel")});
 
 		if (!showFiles && allowSelectDirectory)
 			buttons.push_back({"start", _("Select")});
 		else if ((allowEnterDirectory && isDirectory(selected)) || !isDirectory(selected))
-			buttons.push_back({"a", _("Select")});
+			buttons.push_back({"b", _("Select")});
 
 		if (showDirectories && allowDirUp && path != "/")
 			buttons.push_back({"x", _("Dir up")});

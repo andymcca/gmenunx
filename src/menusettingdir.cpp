@@ -36,7 +36,7 @@ MenuSettingStringBase(gmenu2x, title, description, value), startPath(startPath),
 	btn->setAction(MakeDelegate(this, &MenuSettingDir::clear));
 	buttonBox.add(btn);
 
-	btn = new IconButton(gmenu2x, "a", _("Select"));
+	btn = new IconButton(gmenu2x, "b", _("Select"));
 	btn->setAction(MakeDelegate(this, &MenuSettingDir::edit));
 	buttonBox.add(btn);
 }
