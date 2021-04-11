@@ -11,7 +11,7 @@ void ImageViewerDialog::exec() {
 	int offsetX = 0, offsetY = 0;
 
 	buttons.push_back({"dpad", _("Pan")});
-	buttons.push_back({"b", _("Exit")});
+	buttons.push_back({"a", _("Exit")});
 	drawDialog(this->bg);
 
 	while (true) {

@@ -107,8 +107,8 @@ gmenu2x(gmenu2x), text(text), icon(icon) {
 	button[LEFT] = "left";
 	button[RIGHT] = "right";
 	button[MODIFIER] = "x";
-	button[CONFIRM] = "a";
-	button[CANCEL] = "b";
+	button[CONFIRM] = "b";
+	button[CANCEL] = "a";
 	button[MANUAL] = "y";
 	button[DEC] = "x";
 	button[INC] = "y";

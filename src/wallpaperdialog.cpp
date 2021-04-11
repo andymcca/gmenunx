@@ -60,8 +60,8 @@ bool WallpaperDialog::exec() {
 	}
 
 	buttons.push_back({"select", _("Menu")});
-	buttons.push_back({"b", _("Cancel")});
-	buttons.push_back({"a", _("Select")});
+	buttons.push_back({"a", _("Cancel")});
+	buttons.push_back({"b", _("Select")});
 
 	while (true) {
 		if (selected < 0) selected = wallpapers.size() - 1;
