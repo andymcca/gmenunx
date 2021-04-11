@@ -30,7 +30,7 @@ MenuSettingStringBase(gmenu2x, title, description, value), dialogTitle(dialogTit
 	// btn->setAction(MakeDelegate(this, &MenuSettingString::clear));
 	buttonBox.add(btn);
 
-	btn = new IconButton(gmenu2x, "a", _("Edit"));
+	btn = new IconButton(gmenu2x, "b", _("Edit"));
 	// btn->setAction(MakeDelegate(this, &MenuSettingString::edit));
 	buttonBox.add(btn);
 }

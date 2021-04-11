@@ -36,7 +36,7 @@ MenuSetting(gmenu2x, title, description) {
 	this->setB(this->value().b);
 	this->setA(this->value().a);
 
-	btn = new IconButton(gmenu2x, "a", _("Edit"));
+	btn = new IconButton(gmenu2x, "b", _("Edit"));
 	buttonBox.add(btn);
 }
 
@@ -79,7 +79,7 @@ uint32_t MenuSettingRGBA::manageInput() {
 			editing = false;
 			buttonBox.remove(2);
 
-			btn = new IconButton(gmenu2x, "a", _("Edit"));
+			btn = new IconButton(gmenu2x, "b", _("Edit"));
 			buttonBox.add(btn);
 		}
 		return -1;
@@ -91,7 +91,7 @@ uint32_t MenuSettingRGBA::manageInput() {
 		btn = new IconButton(gmenu2x, "dpad", _("Edit"));
 		buttonBox.add(btn);
 
-		btn = new IconButton(gmenu2x, "a", _("OK"));
+		btn = new IconButton(gmenu2x, "b", _("OK"));
 		buttonBox.add(btn);
 	}
 	return 0;

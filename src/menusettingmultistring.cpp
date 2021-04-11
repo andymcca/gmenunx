@@ -34,7 +34,7 @@ MenuSettingStringBase(gmenu2x, title, description, value), choices(choices), onC
 	}
 
 	if (this->onSelect) {
-		btn = new IconButton(gmenu2x, "a", _("Open"));
+		btn = new IconButton(gmenu2x, "b", _("Open"));
 		// btn->setAction(MakeDelegate(this, &MenuSettingMultiString::incSel));
 		buttonBox.add(btn);
 	}
