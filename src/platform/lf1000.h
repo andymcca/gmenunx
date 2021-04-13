@@ -101,10 +101,15 @@ public:
 	}
 
 	void setCPU(uint32_t mhz) {
-		mhz = constrain(mhz, gmenu2x->confInt["cpuMenu"], gmenu2x->confInt["cpuMax"]);
-		if (FILE *f = fopen("/sys/class/backlight/lf1000-pwm-bl/brightness", "w")) {
-			fprintf(f, "%d", mhz * 1000000);
-			INFO("Set CPU to %d mhz (%d hz)", mhz, mhz * 1000000);
+		// FIXME: It should be possible to do more granular clocking, but the kernel-side CPU code appears to only
+		// want certain magic numbers in hz, or the system will lock up. My best guess is that the new frequency
+		// needs to be an even multiple of one of the PLL clocks, but for now, high/low clocking will suffice.
+        uint32_t hz = 393218109;
+		if(mhz > 500) hz = 532500000;
+
+		if (FILE *f = fopen("/sys/devices/platform/lf1000-clock/cpu_freq_in_hz", "w")) {
+			fprintf(f, "%d", hz);
+			INFO("Set CPU to %d hz (requested %d mhz)", hz, mhz);
 			fclose(f);
 		}
 
