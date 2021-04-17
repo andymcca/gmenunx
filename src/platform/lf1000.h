@@ -26,6 +26,15 @@ public:
 
         batteryStatus = getBatteryStatus(getBatteryLevel(), 0, 0);
 
+
+		cpu_menu = 393;
+		cpu_link = 393;
+		cpu_max = 533;
+		cpu_min = 300;
+		cpu_step = 20;
+		
+        // Move CPU back down in case we came back from a linked app w/ overclock.
+        setCPU(cpu_menu);
 		INFO("LF1000 Init Done!");
 	}
 
