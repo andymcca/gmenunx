@@ -101,8 +101,8 @@ public:
 		 "critical battery" 2000mv
 		*/
 	    INFO("Battery status %d %d %d\n", val, min, max);
-		if (val > 7000) return 5; // 100%
-		if (val > 6000) return 4; // 80%
+		if (val > 5500) return 5; // 100%
+		if (val > 5000) return 4; // 80%
 		if (val > 4600) return 3; // 55%
 		if (val > 4200) return 2; // 30%
 		if (val > 3000) return 1; // 15%
