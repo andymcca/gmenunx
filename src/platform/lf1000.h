@@ -83,11 +83,23 @@ public:
 
 	int16_t getBatteryLevel() {
 		int val = -1;
+		char power_source[8];
 		if (FILE *f = fopen("/sys/devices/platform/lf1000-power/voltage", "r")) {
 			fscanf(f, "%i", &val);
 			fclose(f);
 		}
+		if (FILE *f = fopen("/sys/devices/platform/lf1000-power/power_source", "r")) {
+			fscanf(f, "%8c", &power_source);
+			fclose(f);
+			INFO("Power Source %s\n", &power_source);
+		}
+
 		INFO("Battery level %d\n", val);
+		// AC Adapter
+		if (std::string(power_source) == "EXTERNAL") { 
+			INFO("AC Adapter Connected.\n");
+			return -1;
+			}
 		return val;
 	}
 
@@ -101,6 +113,7 @@ public:
 		 "critical battery" 2000mv
 		*/
 	    INFO("Battery status %d %d %d\n", val, min, max);
+		if (val == -1)  return 6;  // AC Adapter
 		if (val > 5500) return 5; // 100%
 		if (val > 5000) return 4; // 80%
 		if (val > 4600) return 3; // 55%
