@@ -28,7 +28,7 @@ enum actions {
 	INC, DEC,
 	PAGEUP, PAGEDOWN,
 	SETTINGS, MENU,
-	VOLUP, VOLDOWN,
+	VOLUP, VOLDOWN, VOLUME_SLIDER,
 	BACKLIGHT, POWER,
 	UDC_CONNECT, // = NUM_ACTIONS,
 	UDC_REMOVE,
@@ -78,6 +78,7 @@ private:
 
 	const char konami[10] = {UP, UP, DOWN, DOWN, LEFT, RIGHT, LEFT, RIGHT, CANCEL, CONFIRM}; // eegg
 	char input_combo[10] = {POWER}; // eegg
+	int vol_slider_pos = 0;
 
 public:
 	static uint32_t wakeUp(uint32_t interval, void *repeat);
@@ -96,6 +97,7 @@ public:
 	void setInterval(int ms, int action = -1);
 	bool &operator[](int action);
 	bool isActive(int action);
+	int getVolumeSliderPos();
 };
 
 #endif

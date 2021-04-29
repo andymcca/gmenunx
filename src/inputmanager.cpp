@@ -29,7 +29,8 @@ using std::ifstream;
 enum InputManagerMappingTypes {
 	MAPPING_TYPE_BUTTON,
 	MAPPING_TYPE_AXIS,
-	MAPPING_TYPE_KEYPRESS
+	MAPPING_TYPE_KEYPRESS,
+	MAPPING_TYPE_VOLUMESLIDER
 };
 
 static SDL_TimerID timer = NULL;
@@ -115,6 +116,7 @@ void InputManager::init(string conffile) {
 		else if (name == "settings")     action = SETTINGS;
 		else if (name == "volup")        action = VOLUP;
 		else if (name == "voldown")      action = VOLDOWN;
+		else if (name == "volume_slider")      action = VOLUME_SLIDER;
 		else if (name == "backlight")    action = BACKLIGHT;
 		else if (name == "power")        action = POWER;
 		else if (name == "menu")         action = MENU;
@@ -137,6 +139,13 @@ void InputManager::init(string conffile) {
 			} else if (values[0] == "joystickaxis" && values.size() == 4) {
 				InputMap map;
 				map.type = MAPPING_TYPE_AXIS;
+				map.num = atoi(values[1].c_str());
+				map.value = atoi(values[2].c_str());
+				map.treshold = atoi(values[3].c_str());
+				actions[action].maplist.push_back(map);
+			} else if (values[0] == "volumeslider" && values.size() == 4) {
+				InputMap map;
+				map.type = MAPPING_TYPE_VOLUMESLIDER;
 				map.num = atoi(values[1].c_str());
 				map.value = atoi(values[2].c_str());
 				map.treshold = atoi(values[3].c_str());
@@ -308,7 +317,20 @@ bool InputManager::isActive(int action) {
 			case MAPPING_TYPE_KEYPRESS:
 				if (keystate[map.value]) return true;
 				break;
+			case MAPPING_TYPE_VOLUMESLIDER:
+			    if (map.num < joysticks.size()) {
+					int axispos = SDL_JoystickGetAxis(joysticks[map.num], map.value);
+					if (vol_slider_pos != axispos) {
+						vol_slider_pos = axispos;
+						return true;
+					}
+				}
 		}
 	}
 	return false;
+}
+
+int InputManager::getVolumeSliderPos() {
+	// Normalize for 0-100 scale vs SDL's joystick range (-32768->32767)
+	return (vol_slider_pos+32768)/655;
 }

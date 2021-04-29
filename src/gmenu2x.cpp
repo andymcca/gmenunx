@@ -288,7 +288,11 @@ bool GMenu2X::inputCommonActions(bool &inputAction) {
 
 	} else if (input[VOLUP] || input[VOLDOWN]) {
 		setVolume(confInt["globalVolume"], true);
-
+	} else if (input[VOLUME_SLIDER]) {
+		int val = input.getVolumeSliderPos();
+        setVolume(val, false);
+		confInt["globalVolume"] = val;
+		writeConfig();
 	} else if (input[BACKLIGHT]) {
 		setBacklight(confInt["backlight"], true);
 
@@ -1697,7 +1701,7 @@ int GMenu2X::setVolume(int val, bool popup) {
 		confInt["globalVolume"] = val;
 		writeConfig();
 	}
-
+    WARNING("Set volume to %d", val);
 	platform->setVolume(val);
 
 	return val;
