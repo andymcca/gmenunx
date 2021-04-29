@@ -1701,7 +1701,6 @@ int GMenu2X::setVolume(int val, bool popup) {
 		confInt["globalVolume"] = val;
 		writeConfig();
 	}
-    WARNING("Set volume to %d", val);
 	platform->setVolume(val);
 
 	return val;
