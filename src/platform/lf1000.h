@@ -48,7 +48,9 @@ public:
 
 	void hwDeinit() {
 		INFO("LF1000 DeInit done!");
-		unsetenv("SDL_JOYSTICK_DEVICE");
+		if(getBoardId() == DIDJ_BOARD_ID) {
+			unsetenv("SDL_JOYSTICK_DEVICE");
+		}
 	}
 
 	uint32_t hwCheck(unsigned int interval=0, void *param = NULL) {
