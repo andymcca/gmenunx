@@ -3,6 +3,8 @@
 
 #include <math.h>
 
+#define DIDJ_BOARD_ID 3
+
 class LF1000 : public Platform {
 private:
 	volatile uint16_t *memregs;
@@ -35,10 +37,18 @@ public:
 		
         // Move CPU back down in case we came back from a linked app w/ overclock.
         setCPU(cpu_menu);
+
+        if(getBoardId() == DIDJ_BOARD_ID) {
+			setenv("SDL_JOYSTICK_DEVICE", "/dev/input/event0", 0);
+		}
+
+
 		INFO("LF1000 Init Done!");
 	}
 
 	void hwDeinit() {
+		INFO("LF1000 DeInit done!");
+		unsetenv("SDL_JOYSTICK_DEVICE");
 	}
 
 	uint32_t hwCheck(unsigned int interval=0, void *param = NULL) {
@@ -152,6 +162,20 @@ public:
 		// TODO: Set mute off/on when calling exec, so that audio isn't running during the menu
 		sprintf(cmd, "amixer set Master %d; amixer set Master on; amixer set Headphone 250; amixer set Speaker 250", val);
 		system(cmd);
+	}
+
+
+	int getBoardId() {
+		int board_id = -1;
+		if (FILE *f = fopen("/sys/devices/platform/lf1000-gpio/board_id", "r")) {
+			fscanf(f, "%d", &board_id);
+			fclose(f);
+			INFO("LF1000 Board ID = 0x%x\n", board_id);
+		}
+        if (board_id < 0) {
+		    ERROR("Can't read LF1000 board ID!");
+		}
+        return board_id;
 	}
 
 };
