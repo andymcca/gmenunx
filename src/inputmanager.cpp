@@ -41,9 +41,9 @@ InputManager::InputManager() {}
 
 InputManager::~InputManager() {
 	SDL_RemoveTimer(timer); timer = NULL;
-	for (uint32_t x = 0; x < joysticks.size(); x++)
-		if (SDL_JoystickOpened(x))
-			SDL_JoystickClose(joysticks[x]);
+	if (joysticks.size() > 0) {
+		SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
+	}
 }
 
 void InputManager::initJoysticks(bool reinit) {
